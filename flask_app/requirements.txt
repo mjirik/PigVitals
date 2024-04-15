@@ -1,0 +1,6 @@
+Flask
+pymongo
+datetime
+requests
+Flask
+docker

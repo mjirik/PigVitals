@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  flask_app:
+    build: ./flask_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask_app/videos:/usr/src/app/videos
+    depends_on:
+      - video_processor
+      - mongodb
+
+  video_processor:
+    build: ./video_processor
+    ports:
+      - "8080:8080"
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+networks:
+  default:
+    driver: bridge

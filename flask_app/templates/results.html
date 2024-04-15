@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Processing Results</title>
+</head>
+<body>
+    <h1>Results for: {{ video_name }}</h1>
+    <div>
+        <p>File Name: {{ video_name }}</p>
+        <p>Video Length: {{ video_length }} seconds</p>
+        <p>Number of Frames: {{ number_of_frames }}</p>
+        <form action="{{ url_for('save_results') }}" method="post">
+            <input type="hidden" name="video_name" value="{{ video_name }}">
+            <input type="hidden" name="video_length" value="{{ video_length }}">
+            <input type="hidden" name="number_of_frames" value="{{ number_of_frames }}">
+            <button type="submit">Save Results</button>
+        </
