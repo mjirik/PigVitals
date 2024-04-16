@@ -1,15 +1,25 @@
 from flask import Flask, request, jsonify
-import os  # For accessing file properties
+import cv2  # Import OpenCV
+import os
 
 app = Flask(__name__)
 
 @app.route('/process', methods=['POST'])
 def process_video():
     video_path = request.json['path']
-    # Here you would add your real video processing logic
-    video_length = 120  # Placeholder for video length in seconds
-    number_of_frames = 3600  # Placeholder for number of frames
-    return jsonify({"video_length": video_length, "number_of_frames": number_of_frames})
+    if not os.path.exists(video_path):
+        return jsonify({"error": "File not found"}), 404
+
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        return jsonify({"error": "Could not open video"}), 500
+
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    cap.release()
+
+    return jsonify({"video_length": "Not computed", "number_of_frames": "Not computed", "width": int(width), "height": int(height), "fps": fps}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

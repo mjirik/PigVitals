@@ -14,6 +14,8 @@ services:
     build: ./video_processor
     ports:
       - "8080:8080"
+    volumes:
+      - ./flask_app/videos:/usr/src/app/videos
 
   mongodb:
     image: mongo
