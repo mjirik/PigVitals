@@ -2,8 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Processed Video Details</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+     <style>
+        #plots {
+            display: flex;
+            justify-content: space-around;
+        }
+        .plot {
+            flex: 1;
+            padding: 10px;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Processed Video Details</h1>
     <video width="640" height="480" controls>
@@ -18,5 +33,17 @@
         <p>FPS: {{ video_data['fps'] }}</p>
         <p>Frame Count: {{ video_data['frame_count'] }}</p>
     </div>
+    <div id="plots">
+        <div id="plot1" class="plot"></div>
+        <div id="plot2" class="plot"></div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $.getJSON('/get-plots', function(data) {
+                $('#plot1').html(data.plot1_html);
+                $('#plot2').html(data.plot2_html);
+            });
+        });
+    </script>
 </body>
 </html>

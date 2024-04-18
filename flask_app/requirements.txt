@@ -2,3 +2,5 @@ Flask
 pymongo
 datetime
 requests
+plotly
+pandas

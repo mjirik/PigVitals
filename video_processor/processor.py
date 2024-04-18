@@ -13,9 +13,8 @@ processed_videos = db.processed_videos  # Assuming 'processed_videos' is the col
 @app.route('/process', methods=['POST'])
 def process_video():
     video_path = request.json['path']
-    processed_directory = 'static/processed'
-    processed_path = os.path.join(processed_directory, os.path.basename(video_path))
-    os.makedirs(processed_directory, exist_ok=True)
+    output_directory = '/usr/src/app/static/processed'  # Path where videos are saved
+    output_path = os.path.join(output_directory, os.path.basename(video_path))
 
     # Ensure video can be opened
     cap = cv2.VideoCapture(video_path)
@@ -23,11 +22,11 @@ def process_video():
         return jsonify({"error": "Could not open video"}), 500
 
     # Set up parameters for saving the processed video
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    fourcc = cv2.VideoWriter_fourcc(*'avc1')
     fps = cap.get(cv2.CAP_PROP_FPS)
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    out = cv2.VideoWriter(processed_path, fourcc, fps, (width, height))
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
     frame_count = 0
     while True:
@@ -46,7 +45,7 @@ def process_video():
     # Document to store in MongoDB
     video_metadata = {
         "original_path": video_path,
-        "processed_path": processed_path,
+        "processed_path": output_path,
         "width": width,
         "height": height,
         "fps": fps,

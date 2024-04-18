@@ -8,6 +8,7 @@ services:
       - ./flask_app/videos:/usr/src/app/videos
       - ./flask_app/processed_videos:/usr/src/app/processed_videos
       - ./flask_app/static:/usr/src/app/static
+      - ./flask_app/static/processed:/usr/src/app/static/processed
     depends_on:
       - video_processor
       - mongodb
@@ -20,6 +21,7 @@ services:
       - ./flask_app/videos:/usr/src/app/videos
       - ./flask_app/processed_videos:/usr/src/app/processed_videos
       - ./flask_app/static:/usr/src/app/static
+      - ./flask_app/static/processed:/usr/src/app/static/processed
     depends_on:
       - mongodb
     environment:

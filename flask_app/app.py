@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, current_app, send_file, abort
 from pymongo import MongoClient
 import requests
+import plotly.express as px
+import pandas as pd
 import os
-import re
+
 
 app = Flask(__name__)
 
@@ -28,6 +30,27 @@ def process_video_page(video_name):
         return redirect(url_for('show_processed_video', video_name=video_name))
     else:
         return jsonify({"error": "Processing failed"}), 500
+
+@app.route('/get-plots')
+def get_plots():
+    # Data and plots definitions
+    df1 = pd.DataFrame({
+        'x': range(10),
+        'y': [x**2 for x in range(10)]
+    })
+    fig1 = px.line(df1, x='x', y='y', title='Plot 1: y = x^2')
+
+    df2 = pd.DataFrame({
+        'x': range(10),
+        'y': [x*2 for x in range(10)]
+    })
+    fig2 = px.line(df2, x='x', y='y', title='Plot 2: y = 2x')
+
+    # Generating HTML for both plots
+    plot1_html = fig1.to_html(full_html=False)
+    plot2_html = fig2.to_html(full_html=False)
+
+    return jsonify(plot1_html=plot1_html, plot2_html=plot2_html)
 
 @app.route('/show_processed_video/<video_name>')
 def show_processed_video(video_name):
