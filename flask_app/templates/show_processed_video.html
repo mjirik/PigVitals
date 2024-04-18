@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Processed Video Details</title>
+</head>
+<body>
+    <h1>Processed Video Details</h1>
+    <video width="640" height="480" controls>
+        <source src="{{ url_for('static', filename='processed/' + video_filename) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div>
+        <p>Original Path: {{ video_data['original_path'] }}</p>
+        <p>Processed Path: {{ video_data['processed_path'] }}</p>
+        <p>Width: {{ video_data['width'] }} pixels</p>
+        <p>Height: {{ video_data['height'] }} pixels</p>
+        <p>FPS: {{ video_data['fps'] }}</p>
+        <p>Frame Count: {{ video_data['frame_count'] }}</p>
+    </div>
+</body>
+</html>

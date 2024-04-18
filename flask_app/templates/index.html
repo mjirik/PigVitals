@@ -2,14 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video List</title>
 </head>
 <body>
-    <h1>Video List</h1>
+    <h1>Unprocessed Videos</h1>
     <ul>
         {% for video in videos %}
-            <li><a href="{{ url_for('process_video', video_name=video) }}">{{ video }}</a></li>
+            <li><a href="{{ url_for('process_video_page', video_name=video) }}">{{ video }}</a></li>
+        {% endfor %}
+    </ul>
+    <h1>Processed Videos</h1>
+    <ul>
+        {% for video in processed_videos %}
+            <li><a href="{{ url_for('show_processed_video', video_name=video) }}">{{ video }}</a></li>
         {% endfor %}
     </ul>
 </body>

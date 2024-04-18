@@ -1,25 +1,62 @@
 from flask import Flask, request, jsonify
-import cv2  # Import OpenCV
+import cv2
 import os
+from pymongo import MongoClient
 
 app = Flask(__name__)
+
+# Establish a connection to the MongoDB server
+client = MongoClient("mongodb://mongodb:27017/")
+db = client.video_processsing_db  # Assuming 'video_db' is the database name
+processed_videos = db.processed_videos  # Assuming 'processed_videos' is the collection name
 
 @app.route('/process', methods=['POST'])
 def process_video():
     video_path = request.json['path']
-    if not os.path.exists(video_path):
-        return jsonify({"error": "File not found"}), 404
+    processed_directory = 'static/processed'
+    processed_path = os.path.join(processed_directory, os.path.basename(video_path))
+    os.makedirs(processed_directory, exist_ok=True)
 
+    # Ensure video can be opened
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
         return jsonify({"error": "Could not open video"}), 500
 
-    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    # Set up parameters for saving the processed video
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     fps = cap.get(cv2.CAP_PROP_FPS)
-    cap.release()
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter(processed_path, fourcc, fps, (width, height))
 
-    return jsonify({"video_length": "Not computed", "number_of_frames": "Not computed", "width": int(width), "height": int(height), "fps": fps}), 200
+    frame_count = 0
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        # Example processing: Add text overlay
+        cv2.putText(frame, 'Processed', (10, 50), cv2.FONT_HERSHEY_SIMPLEX,
+                    1, (255, 255, 255), 2, cv2.LINE_AA)
+        out.write(frame)
+        frame_count += 1
+
+    cap.release()
+    out.release()
+
+    # Document to store in MongoDB
+    video_metadata = {
+        "original_path": video_path,
+        "processed_path": processed_path,
+        "width": width,
+        "height": height,
+        "fps": fps,
+        "frame_count": frame_count
+    }
+
+    # Insert the metadata into MongoDB
+    #processed_videos.insert_one(video_metadata)
+
+    return jsonify(video_metadata)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)

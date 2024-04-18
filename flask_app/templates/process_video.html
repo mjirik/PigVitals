@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Process Video</title>
+</head>
+<body>
+    <h1>Process Video: {{ video_name }}</h1>
+    <form action="/show_processed_video/{{ video_name }}" method="post">
+        <button type="submit">View Processed Video</button>
+    </form>
+</body>
+</html>

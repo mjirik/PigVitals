@@ -6,22 +6,31 @@ services:
       - "5000:5000"
     volumes:
       - ./flask_app/videos:/usr/src/app/videos
+      - ./flask_app/processed_videos:/usr/src/app/processed_videos
+      - ./flask_app/static:/usr/src/app/static
     depends_on:
       - video_processor
       - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/video_db
 
   video_processor:
     build: ./video_processor
-    ports:
-      - "8080:8080"
     volumes:
       - ./flask_app/videos:/usr/src/app/videos
+      - ./flask_app/processed_videos:/usr/src/app/processed_videos
+      - ./flask_app/static:/usr/src/app/static
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/video_db
 
   mongodb:
     image: mongo
+    volumes:
+      - mongodb_data:/data/db
     ports:
       - "27017:27017"
 
-networks:
-  default:
-    driver: bridge
+volumes:
+  mongodb_data:
