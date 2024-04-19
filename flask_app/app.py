@@ -19,6 +19,10 @@ def index():
     processed_videos = os.listdir('static/processed')
     return render_template('index.html', videos=videos, processed_videos=processed_videos)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 @app.route('/process_video/<video_name>')
 def process_video_page(video_name):

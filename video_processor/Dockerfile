@@ -13,7 +13,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY . .
 
 RUN pip install --no-cache-dir -r requirements.txt
-RUN conda install -c conda-forge opencv
+RUN conda install -c conda-forge opencv -y
 
 EXPOSE 8080
 # Run the application
