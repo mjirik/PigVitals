@@ -34,6 +34,7 @@
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative; /* Added to position data attribute correctly */
         }
         #plots {
             width: 100%;
@@ -94,11 +95,11 @@
             <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Logo">
             <a href="/" class="title">PigVitals</a>
         </div>
-        <a href="/about">About the Thesis</a>
+        <a href="/about">Diplomová práce</a>
     </div>
     <div class="content">
         <h1>Detail videa</h1>
-        <div class="video-container">
+        <div class="video-container" data-video-name="{{ video_filename }}">
             <video width="1280" height="720" controls>
                 <source src="{{ url_for('static', filename='processed/' + video_filename) }}" type="video/mp4">
                 Your browser does not support the video tag.
@@ -124,7 +125,8 @@
     </div>
     <script>
         $(document).ready(function(){
-            $.getJSON('/get-plots', function(data) {
+            var videoName = $('.video-container').data('video-name');
+            $.getJSON('/get-plots/' + videoName, function(data) {
                 $('#plot1').html(data.plot1_html);
                 $('#plot2').html(data.plot2_html);
             }).fail(function() {

@@ -91,16 +91,16 @@
             <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Logo">
             <a href="/" class="title">PigVitals</a>
         </div>
-        <a href="/about">About the Thesis</a>
+        <a href="/about">Diplomová práce</a>
     </div>
     <div class="content">
-        <h1>Unprocessed Videos</h1>
+        <h1>Nezpracovaná videa</h1>
         <ul>
             {% for video in videos %}
                 <li><a href="{{ url_for('process_video_page', video_name=video) }}">{{ video }}</a></li>
             {% endfor %}
         </ul>
-        <h1>Processed Videos</h1>
+        <h1>Zpracovaná videa</h1>
         <ul>
             {% for video in processed_videos %}
                 <li><a href="{{ url_for('show_processed_video', video_name=video) }}">{{ video }}</a></li>

@@ -24,8 +24,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        .navbar img, .footer img {
+        .navbar img {
             width: 100px;
+            margin-right: 20px;
+        }
+        .footer img {
+            width: 300px;
             margin-right: 20px;
         }
         .navbar a, .footer a {
@@ -89,7 +93,7 @@
             <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Logo">
             <a href="/" class="title">PigVitals</a>
         </div>
-        <a href="/about">About the Thesis</a>
+        <a href="/about">Diplomová práce</a>
     </div>
     <div class="content">
         <div class="section">

@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 import cv2
 import os
 from pymongo import MongoClient
+import json
+from datetime import date
 
 app = Flask(__name__)
 
@@ -12,6 +14,7 @@ processed_videos = db.processed_videos  # Assuming 'processed_videos' is the col
 
 @app.route('/process', methods=['POST'])
 def process_video():
+    current_date = date.today()
     video_path = request.json['path']
     output_directory = '/usr/src/app/static/processed'  # Path where videos are saved
     output_path = os.path.join(output_directory, os.path.basename(video_path))
@@ -41,15 +44,20 @@ def process_video():
 
     cap.release()
     out.release()
-
+    with open('eval_pigs.json') as f:
+        data = json.load(f)
     # Document to store in MongoDB
     video_metadata = {
         "original_path": video_path,
         "processed_path": output_path,
+        "video_data": data,
         "width": width,
         "height": height,
         "fps": fps,
-        "frame_count": frame_count
+        "frame_count": frame_count,
+        "camera": "zverinec01",
+        "scale_factor": 1,
+        "date_processed": current_date
     }
 
     # Insert the metadata into MongoDB
