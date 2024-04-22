@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import os
+import re
 import io
 import csv
 import numpy as np
@@ -135,26 +136,30 @@ def download_csv(video_name):
     if not video_data:
         return "Video data not found", 404
 
-    # Here we simulate converting video_data (which is a dictionary) into CSV
+    # Simulate converting video_data (which is a dictionary) into CSV
     output = io.StringIO()
     writer = csv.writer(output)
 
-    # Assuming video_data is a dictionary, write the header based on the keys
-    header = video_data.keys()
-    writer.writerow(header)
+    # Write the CSV header
+    writer.writerow(["frame", "pigs_coordinates", "camera", "date_processed"])
 
-    # Write the data
-    writer.writerow([video_data[key] for key in header])
+    # Iterate over each frame in the data
+    for frame, details in video_data["video_data"].items():
+        # Flatten the list of track_bboxes to a single list
+        coordinates = [item for sublist in details["track_bboxes"] for item in sublist]
+        # Write a row for each frame
+        writer.writerow([frame, coordinates, video_data["camera"], video_data["date_processed"]])
 
     # Move to the beginning of the StringIO buffer
     output.seek(0)
 
-    # Create a response
+    # Create a response to send the CSV file
     return Response(
         output.getvalue(),
         mimetype="text/csv",
         headers={"Content-disposition": f"attachment; filename={video_name}.csv"}
     )
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
