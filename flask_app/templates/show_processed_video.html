@@ -87,6 +87,30 @@
             width: 300px;
             margin: 0 10px;
         }
+
+        .video-details {
+            background: #fff;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .download-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
@@ -104,13 +128,16 @@
                 <source src="{{ url_for('static', filename='processed/' + video_filename) }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-            <div>
+            <div class="video-details">
                 <p>Cesta k nezpracovanému videu: {{ video_data['original_path'] }}</p>
                 <p>Cesta ke zpracovanému videu: {{ video_data['processed_path'] }}</p>
                 <p>Výška: {{ video_data['width'] }} pixels</p>
                 <p>Šířka: {{ video_data['height'] }} pixels</p>
                 <p>FPS: {{ video_data['fps'] }}</p>
                 <p>Počet snímků: {{ video_data['frame_count'] }}</p>
+                <button class="download-btn" onclick="window.location.href = '{{ url_for('download_csv', video_name=video_filename) }}'">
+                    Download CSV
+                </button>
             </div>
         </div>
         <h1>Reporting k videu</h1>

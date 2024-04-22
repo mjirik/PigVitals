@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, current_app, send_file, abort
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, current_app, send_file, abort, Response
 from pymongo import MongoClient
 import requests
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import os
+import io
+import csv
 import numpy as np
 
 
@@ -123,6 +125,36 @@ def check_video_exists(video_name):
     processed_video_path = os.path.join('static/processed', video_name)
     exists = os.path.exists(processed_video_path)
     return jsonify({'exists': exists})
+
+
+@app.route('/download_csv/<video_name>')
+def download_csv(video_name):
+    # Fetching data from MongoDB
+    video_data = db.processed_videos.find_one({"processed_path": {"$regex": f".*{video_name}$"}})
+
+    if not video_data:
+        return "Video data not found", 404
+
+    # Here we simulate converting video_data (which is a dictionary) into CSV
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Assuming video_data is a dictionary, write the header based on the keys
+    header = video_data.keys()
+    writer.writerow(header)
+
+    # Write the data
+    writer.writerow([video_data[key] for key in header])
+
+    # Move to the beginning of the StringIO buffer
+    output.seek(0)
+
+    # Create a response
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-disposition": f"attachment; filename={video_name}.csv"}
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
