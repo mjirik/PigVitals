@@ -4,6 +4,12 @@ import os
 from pymongo import MongoClient
 import json
 from datetime import date
+from mmcv import collect_env
+import mmcv
+import torch, torchvision
+from mmcv.ops import get_compiling_cuda_version, get_compiler_version
+import mmdet
+import mmtrack
 
 app = Flask(__name__)
 
@@ -14,6 +20,28 @@ processed_videos = db.processed_videos  # Assuming 'processed_videos' is the col
 
 @app.route('/process', methods=['POST'])
 def process_video():
+
+
+    print(mmcv.__version__)
+    collect_env()
+
+    # Check Pytorch installation
+
+    print(torch.__version__, torch.cuda.is_available())
+
+    # Check mmcv installation
+
+    print(get_compiling_cuda_version())
+    print(get_compiler_version())
+
+    # Check MMDetection installation
+
+    print(mmdet.__version__)
+
+    # Check MMTracking installation
+
+    print(mmtrack.__version__)
+
     current_date = date.today()
     video_path = request.json['path']
     output_directory = '/usr/src/app/static/processed'  # Path where videos are saved
