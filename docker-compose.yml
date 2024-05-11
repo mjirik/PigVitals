@@ -30,6 +30,13 @@ services:
       - mongodb
     environment:
       - MONGO_URI=mongodb://mongodb:27017/video_db
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: ["gpu"]
+            driver: nvidia
+            count: all
 
   mongodb:
     image: mongo

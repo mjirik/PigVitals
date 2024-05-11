@@ -38,6 +38,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN pip install pymongo
 RUN pip install flask
+RUN pip install numpy
 RUN pip uninstall opencv-python -y
 RUN conda install -c conda-forge opencv
 
@@ -45,4 +46,4 @@ WORKDIR /usr/src/app
 COPY . .
 EXPOSE 8080
 # Run the application
-CMD ["python", "processor.py"]
+CMD ["python", "-u", "processor.py"]
