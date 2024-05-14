@@ -90,9 +90,8 @@ def process_video():
             for j in range(1, len(points)):
                 cv2.line(img_with_tracks, (int(points[j - 1][0]), int(points[j - 1][1])),
                          (int(points[j][0]), int(points[j][1])), (255, 0, 0), 2)  # Draw line
-            text = f'Pig {object_id}: {distances_walked[object_id]:.2f} m'
-            cv2.putText(img_with_tracks, text, (10, 30 + 30 * object_id), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 1,
-                        cv2.LINE_AA)
+            #text = f'Pig {object_id}: {distances_walked[object_id]:.2f} m'
+            #cv2.putText(img_with_tracks, text, (10, 30 + 30 * object_id), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA)
 
         # Save the frame with drawn bounding boxes and trajectories
         cv2.putText(img_with_tracks, f'Lights status: {light_status_text}', (20, 630), cv2.FONT_HERSHEY_SIMPLEX, 1,

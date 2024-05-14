@@ -33,14 +33,31 @@ def process_video_page(video_name):
     # Directly return the loading page
     return render_template('processing.html', video_name=video_name)
 
+# @app.route('/start_processing/<video_name>', methods=['POST'])
+# def start_processing(video_name):
+#     video_path = os.path.join('videos', video_name)
+#     response = requests.post('http://video_processor:8080/process', json={"path": video_path})
+#     if response.status_code == 200:
+#         json_data = response.json()
+#         processed_videos.insert_one(json_data)
+#         return jsonify({'status': 'started'})
+#     else:
+#         return jsonify({'error': 'Failed to start processing'}), 500
+
 @app.route('/start_processing/<video_name>', methods=['POST'])
 def start_processing(video_name):
     video_path = os.path.join('videos', video_name)
     response = requests.post('http://video_processor:8080/process', json={"path": video_path})
+
     if response.status_code == 200:
         json_data = response.json()
         processed_videos.insert_one(json_data)
-        return jsonify({'status': 'started'})
+
+        try:
+            os.remove(video_path)
+            return jsonify({'status': 'started'})
+        except OSError as e:
+            return jsonify({'status': 'started', 'warning': f'Failed to delete video: {e}'}), 200
     else:
         return jsonify({'error': 'Failed to start processing'}), 500
 
