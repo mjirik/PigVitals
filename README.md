@@ -22,12 +22,5 @@ To get started with PigVitals, follow these steps:
     ```
 3. Install the required dependencies:
     ```bash
-    pip install -r requirements.txt
+    docker-compose.yaml --build
     ```
-
-## Usage
-
-To run the application, use the following command:
-
-```bash
-python main.py
