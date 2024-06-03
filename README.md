@@ -2,7 +2,7 @@
 
 PigVitals is an application designed to monitor and record the vital signs of pigs. This application is useful for farmers and veterinarians who want to ensure the health and well-being of their livestock.
 
-![PigVitals Video Guide](PigVitals/demo/demo_vid.gif)
+![PigVitals Video Guide](/demo/demo_vid.gif)
 
 
 ## Features
