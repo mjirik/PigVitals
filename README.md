@@ -1,6 +1,6 @@
 # PigVitals
 
-PigVitals is an application designed to monitor and record the vital signs of pigs. This application is useful for farmers and veterinarians who want to ensure the health and well-being of their livestock.
+PigVitals is an application designed to monitor and record the vital signs of pigs after liver transaplantation. This application is useful for doctors in Biomedical Center Of Charles University in Pilsen.
 
 ![PigVitals Video Guide](/demo/demo_vid.gif)
 
@@ -9,11 +9,8 @@ PigVitals is an application designed to monitor and record the vital signs of pi
 
 - Historical data recordings using mongoDB
 - Easy depolyment using Docker
-- User-friendly
+- User-friendly application
 - Interactive reporting using Plotly
-
-  ![PigVitals Video Guide](/demo/detail_1.png)
-  ![PigVitals Video Guide](/demo/detail_2.png)
 
 ## Installation
 
@@ -31,3 +28,7 @@ To get started with PigVitals, follow these steps:
     ```bash
     docker-compose.yaml --build
     ```
+
+## Application 
+  ![PigVitals Video Guide](/demo/detail_1.png)
+  ![PigVitals Video Guide](/demo/detail_2.png)
