@@ -30,5 +30,6 @@ To get started with PigVitals, follow these steps:
     ```
 
 ## Application 
+The application visualizes data from MongoDB provided by a REST API that processes video content. It analyzes videos, turning insights into clear visual representations. This helps users quickly understand and make decisions based on the video data. Web application was build using Flask, while the REST API uses mainly MMTracking for video procesing, with the usage of neural network models.
   ![PigVitals Video Guide](/demo/detail_1.png)
   ![PigVitals Video Guide](/demo/detail_2.png)
