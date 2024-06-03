@@ -9,7 +9,8 @@ PigVitals is an application designed to monitor and record the vital signs of pi
 
 - Historical data recordings using mongoDB
 - Easy depolyment using Docker
-- User-friendly interface
+- User-friendly
+- Interactive reporting using Plotly
 
 ## Installation
 
