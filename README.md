@@ -13,7 +13,7 @@ PigVitals is an application designed to monitor and record the vital signs of pi
 - Interactive reporting using Plotly
 
 ## Installation
-
+Since the REST API for video procesing is using big neural network models, it is highly recomended to use GPU.
 To get started with PigVitals, follow these steps:
 
 1. Clone the repository:
