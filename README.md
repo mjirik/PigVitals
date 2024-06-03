@@ -12,8 +12,8 @@ PigVitals is an application designed to monitor and record the vital signs of pi
 - User-friendly
 - Interactive reporting using Plotly
 
-  ![PigVitals Video Guide](/demo/demo_vid.gif)
-  ![PigVitals Video Guide](/demo/demo_vid.gif)
+  ![PigVitals Video Guide](/demo/detail_1.png)
+  ![PigVitals Video Guide](/demo/detail_2.png)
 
 ## Installation
 
