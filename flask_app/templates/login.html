@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>PigVitals: Login</title>
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+{#        add style from style.css#}
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <!-- Bootstrap CSS -->
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Logo">
+                <a href="/" class="title">PigVitals</a>
+            </div>
+            <a href="/about">Diplomová práce</a>
+        </div>
+        <div class="content">
+            <div class="section">
+                <h2>Login</h2>
+                <form method="post" action="{{ url_for('login_bp.login') }}">
+                    <p>Username: <input type="text" name="username"></p>
+                    <p>Password: <input type="password" name="password"></p>
+                    <p><input type="submit" value="Login"></p>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul>
+                      {% for message in messages %}
+                        <li>{{ message }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        <div class="footer">
+            <img src="{{ url_for('static', filename='logos/FAV_logo.png') }}" alt="Fakulta aplikovaných věd ZČU">
+            <img src="{{ url_for('static', filename='logos/biom_logo.png') }}" alt="Biomedicinské centrum, LFP UK">
+        </div>
+    </body>
+</html>

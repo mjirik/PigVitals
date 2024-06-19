@@ -9,16 +9,40 @@ import re
 import io
 import csv
 import numpy as np
-
+from views_login import login_bp
+import settings
+from flask_login import LoginManager, login_required
+from models import get_user_by_id
 
 app = Flask(__name__)
+app.secret_key = settings.SECRET_KEY
+
+
 
 # Setup MongoDB client
 client = MongoClient("mongodb://mongodb:27017/")
 db = client.video_db  # Adjust database name as needed
 processed_videos = db.processed_videos
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login_bp.login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return get_user_by_id(user_id)
+
+# Register the blueprint
+app.register_blueprint(login_bp)
+
+
 @app.route('/')
+# redirect to login page
+def index_view():
+    return redirect(url_for('login_bp.login'))
+
+@app.route('/index')
+@login_required
 def index():
     videos = os.listdir('videos')
     processed_videos = os.listdir('static/processed')
@@ -29,6 +53,7 @@ def about():
     return render_template('about.html')
 
 @app.route('/process_video/<video_name>')
+@login_required
 def process_video_page(video_name):
     # Directly return the loading page
     return render_template('processing.html', video_name=video_name)
@@ -45,6 +70,7 @@ def process_video_page(video_name):
 #         return jsonify({'error': 'Failed to start processing'}), 500
 
 @app.route('/start_processing/<video_name>', methods=['POST'])
+@login_required
 def start_processing(video_name):
     video_path = os.path.join('videos', video_name)
     response = requests.post('http://video_processor:8080/process', json={"path": video_path})
@@ -62,6 +88,7 @@ def start_processing(video_name):
         return jsonify({'error': 'Failed to start processing'}), 500
 
 @app.route('/get-plots/<video_name>')
+@login_required
 def get_plots(video_name):
     data = db.processed_videos.find_one({"processed_path": {"$regex": f".*{video_name}$"}})
     video_outputs = data["video_data"]
@@ -131,6 +158,7 @@ def get_plots(video_name):
     return jsonify(plot1_html=plot1_html, plot2_html=plot2_html)
 
 @app.route('/show_processed_video/<video_name>')
+@login_required
 def show_processed_video(video_name):
     video_data = db.processed_videos.find_one({"processed_path": {"$regex": f".*{video_name}$"}})
     if not video_data:
@@ -139,6 +167,7 @@ def show_processed_video(video_name):
     return render_template('show_processed_video.html', video_data=video_data, video_filename=video_filename)
 
 @app.route('/check_video_exists/<video_name>')
+@login_required
 def check_video_exists(video_name):
     processed_video_path = os.path.join('static/processed', video_name)
     exists = os.path.exists(processed_video_path)
@@ -146,6 +175,7 @@ def check_video_exists(video_name):
 
 
 @app.route('/download_csv/<video_name>')
+@login_required
 def download_csv(video_name):
     # Fetching data from MongoDB
     video_data = db.processed_videos.find_one({"processed_path": {"$regex": f".*{video_name}$"}})

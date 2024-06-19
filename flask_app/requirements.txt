@@ -5,3 +5,4 @@ requests
 plotly
 pandas
 numpy
+Flask-Login

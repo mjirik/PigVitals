@@ -5,10 +5,11 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./flask_app/videos:/usr/src/app/videos
-      - ./flask_app/processed_videos:/usr/src/app/processed_videos
-      - ./flask_app/static:/usr/src/app/static
-      - ./flask_app/static/processed:/usr/src/app/static/processed
+      - ./flask_app:/usr/src/app
+#      - ./flask_app/videos:/usr/src/app/videos
+#      - ./flask_app/processed_videos:/usr/src/app/processed_videos
+#      - ./flask_app/static:/usr/src/app/static
+#      - ./flask_app/static/processed:/usr/src/app/static/processed
       - ./video_processor/mmtracking:/usr/src/app/mmtracking
       - ./video_processor/mmdetection:/usr/src/app/mmdetection
     depends_on:

@@ -26,7 +26,7 @@ To get started with PigVitals, follow these steps:
     ```
 3. Install the required dependencies:
     ```bash
-    docker-compose.yaml --build
+    docker compose up
     ```
 
 ## Application 
