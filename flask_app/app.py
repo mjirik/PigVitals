@@ -10,6 +10,7 @@ import io
 import csv
 import numpy as np
 from views_login import login_bp
+from views_admin import admin_bp
 import settings
 from flask_login import LoginManager, login_required
 from models import get_user_by_id
@@ -34,6 +35,7 @@ def load_user(user_id):
 
 # Register the blueprint
 app.register_blueprint(login_bp)
+app.register_blueprint(admin_bp)
 
 
 @app.route('/')

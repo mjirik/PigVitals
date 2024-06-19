@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>
+            PigVitals
+            {% block title %}
+            {% endblock %}
+        </title>
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+{#        add style from style.css#}
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <!-- Bootstrap CSS -->
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Logo">
+                <a href="/index" class="title">PigVitals</a>
+            </div>
+            <a href="/about">Diplomová práce</a>
+{#            if current user is logged #}
+            {% if current_user.role == 'admin' %}
+
+{#                <p><a href="{{ url_for('admin_bp.admin') }}">Add User</a></p>#}
+            {% endif %}
+            {% if current_user.is_authenticated %}
+{#                <a href="{{ url_for('login_bp.change_password') }}">Change Password</a>#}
+                <a href="{{ url_for('login_bp.logout') }}">Logout</a>
+            {% endif %}
+        </div>
+        <div class="content">
+            <div class="section">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="footer">
+            <img src="{{ url_for('static', filename='logos/FAV_logo.png') }}" alt="Fakulta aplikovaných věd ZČU">
+            <img src="{{ url_for('static', filename='logos/biom_logo.png') }}" alt="Biomedicinské centrum, LFP UK">
+        </div>
+    </body>
+</html>

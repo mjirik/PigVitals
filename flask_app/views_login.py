@@ -36,3 +36,24 @@ def home():
     logger.debug("Home page accessed")
 
     return render_template('home.html', username=current_user.username)
+
+
+
+@login_bp.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if current_user.password != current_password:
+            flash('Current password is incorrect.')
+        elif new_password != confirm_password:
+            flash('New password and confirmation do not match.')
+        else:
+            current_user.set_password(new_password)
+            flash('Your password has been updated.')
+            return redirect(url_for('login_bp.index'))
+
+    return render_template('change_password.html')

@@ -1,100 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Video List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: #f4f4f9;
-            color: #333;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            font-size: 18px;
-        }
-        .navbar img {
-            width: 100px;
-            margin-right: 20px;
-        }
-        .navbar a {
-            color: #333;
-            text-decoration: none;
-            padding: 10px 15px;
-        }
-        .navbar .logo {
-            display: flex;
-            align-items: center;
-        }
-        .title {
-            font-family: 'Permanent Marker', cursive;
-            font-size: 42px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background: #fff;
-            margin: 10px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        a {
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .footer {
-            background-color: #fff;
-            color: #333;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-        }
-        .footer img {
-            width: 300px;
-            margin: 0 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="navbar">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Logo">
-            <a href="/" class="title">PigVitals</a>
-        </div>
-        <a href="/about">Diplomová práce</a>
-        <a href="{{ url_for('login_bp.logout') }}">Logout</a>
-    </div>
-    <div class="content">
+
+{% extends "base.html" %}
+
+{% block title %}Change Password{% endblock %}
+
+{% block content %}
+
         <h1>Nezpracovaná videa</h1>
         <ul>
             {% for video in videos %}
@@ -107,10 +17,4 @@
                 <li><a href="{{ url_for('show_processed_video', video_name=video) }}">{{ video }}</a></li>
             {% endfor %}
         </ul>
-    </div>
-    <div class="footer">
-        <img src="{{ url_for('static', filename='logos/FAV_logo.png') }}" alt="Fakulta aplikovaných věd ZČU">
-        <img src="{{ url_for('static', filename='logos/biom_logo.png') }}" alt="Biomedicinské centrum, LFP UK">
-    </div>
-</body>
-</html>
+{% endblock %}
